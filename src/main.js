@@ -6,6 +6,9 @@ import Vuetify from 'vuetify'
 
 import Store from "./store/";
 
+import 'vuetify/dist/vuetify.min.css'
+
+
 Vue.use(Vuetify)
 
 

@@ -2,20 +2,21 @@
     <v-app id="app">
         <v-toolbar :absolute="true"
                    :height="100"
+                   class="layout__toolbar"
                    app flat>
-            <v-layout>
-                <v-flex xs6>
-                    <h2>Air SVX</h2>
-                </v-flex>
-                <v-flex xs6>
-                    <slot name="toolbar"></slot>
-                </v-flex>
-            </v-layout>
+                <v-layout>
+                    <v-flex>
+                        <h2>Air SVX</h2>
+                    </v-flex>
+                    <v-flex>
+                        <slot name="toolbar"></slot>
+                    </v-flex>
+                </v-layout>
         </v-toolbar>
 
         <!--Основной контент-->
-        <v-content>
-            <v-layout :fill-height="contentFillHeight" class="layout_content-base-wrapper">
+        <v-content class="layout__content">
+            <v-layout :fill-height="contentFillHeight">
                 <slot name="content"></slot>
                 <!--navigation-scroll-top v-if="!panelRightActive"></navigation-scroll-top-->
             </v-layout>
