@@ -4,7 +4,9 @@
             <filters></filters>
         </template>
         <template slot="content">
-            Контент
+            <v-layout class="px-3">
+                <flight-list></flight-list>
+            </v-layout>
         </template>
 
     </layout>
@@ -13,6 +15,7 @@
 <script>
     import Layout from "../components/layout/Layout";
     import Filters from "../components/filters/Filters";
+    import FlightList from "../components/flight/FlightList"
 
     export default {
 
@@ -20,8 +23,10 @@
 
         components:{
             Layout,
-            Filters
-        }
+            Filters,
+            FlightList
+        },
+
     }
 
 </script>

@@ -9,9 +9,8 @@ const state = {
     },
     //возможные направления
     dist: [
-        { id: 1, name: "Все", icon: "flight" },
-        { id: 2, name: "Вылет", icon: "flight_takeoff"},
-        { id: 3, name: "Прилет", icon: "flight_land" },
+        { id: 0, name: "Вылет"},
+        { id: 1, name: "Прилет"},
     ],
 };
 

@@ -6,7 +6,8 @@
                     :active_icon = "btn.icon"
                     :active_text = "btn.name"
                     :active = "btn.id === activeDistId"
-                    class="ma-0 mr-1"></tool-tip-btn>
+                    class="ma-0 mr-1"
+                    :key="btn.id"></tool-tip-btn>
             <tool-tip-btn @click="setDelayFilter"
                     active_icon = "timer_off"
                     active_text = "Задержанные"
@@ -17,6 +18,7 @@
 
 <script>
     import ToolTipBtn from "../common/ToolTipBtn";
+    import { flightIcons } from "../../modules/constant"
 
     export default {
         name: "Fiters",
@@ -35,7 +37,7 @@
             },
 
             distbBtns(){
-                return this.$store.getters.filterDistItems;
+                return this.$store.getters.filterDistItems.map(item => ({...item, icon: flightIcons[item.id]}))
             },
 
             activeDistId(){
