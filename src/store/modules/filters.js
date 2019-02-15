@@ -1,8 +1,6 @@
 /**
- * Данные по камерам
+ * Фильтры рейсов
  */
-//import RequestApi from "../../modules/requestApi";
-
 const state = {
     //текущие фильтры
     filters:{
@@ -11,9 +9,9 @@ const state = {
     },
     //возможные направления
     dist: [
-        { id: 1, name: "Все" },
-        { id: 2, name: "Вылет"},
-        { id: 3, name: "Прибытие" },
+        { id: 1, name: "Все", icon: "flight" },
+        { id: 2, name: "Вылет", icon: "flight_takeoff"},
+        { id: 3, name: "Прилет", icon: "flight_land" },
     ],
 };
 

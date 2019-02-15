@@ -1,0 +1,7 @@
+.layout{
+    color: white;
+}
+
+.layout__toolbar, .layout__content{
+    background: #0E1A2C !important;
+}

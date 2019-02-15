@@ -1,11 +1,11 @@
 <template>
-    <v-app id="app">
+    <v-app id="app" class="layout">
         <v-toolbar :absolute="true"
                    :height="100"
                    class="layout__toolbar"
                    app flat>
                 <v-layout>
-                    <v-flex>
+                    <v-flex align-self-center xs3 sm2 md1>
                         <h2>Air SVX</h2>
                     </v-flex>
                     <v-flex>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+    import "./layout.css";
 
     export default {
         name: "Layout",
@@ -53,8 +54,6 @@
                 default: true
             }
         },
-
-        data: () => ({ }),
 
         computed: {
             // состояние всплывашки с сообщениями
