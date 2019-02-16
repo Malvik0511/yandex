@@ -23,6 +23,10 @@ const mutations = {
     SET_FLIGHT_LIST_PAGE(state, val){
         state.flight.listPage = val;
     },
+
+    SET_FLIGHT_LIST(state, val){
+        state.flight.list = val
+    },
     /**
      * следующая страница
      * @param state
@@ -39,13 +43,9 @@ const actions = {
         return new Promise((resolve, reject) => {
             CommonService.request({ station: SVXcode, transport_types: "plane" })
                 .then(data => {
-                    console.log(data)
-                    resolve()
+                    commit("SET_FLIGHT_LIST", data);
                 })
-                .catch(err => {
-                    console.log(err)
-                    reject()
-                });
+                .catch(reject);
         });
     }
 };
