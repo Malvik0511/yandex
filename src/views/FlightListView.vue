@@ -19,7 +19,7 @@
     import Layout from "../components/layout/Layout";
     import FilterBtns from "../components/filter/FilterBtns";
     import FlightList from "../components/flight/FlightList"
-    import FilterField from "../components/filter/FilterField"
+    import FilterField from "../components/filter/filterField/FilterField"
 
     export default {
 

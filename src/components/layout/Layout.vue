@@ -5,8 +5,9 @@
                    class="layout__toolbar"
                    app flat>
                 <v-layout>
-                    <v-flex align-self-center xs3 sm2 md1>
-                        <h2>Air SVX</h2>
+                    <v-flex align-self-center xs4 sm2 md1>
+                        <h2 @click="$router.push('/')"
+                            class="pointer">Air SVX</h2>
                     </v-flex>
                     <v-flex>
                         <slot name="toolbar"></slot>

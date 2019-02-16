@@ -31,27 +31,32 @@
             <div slot="spinner"><v-progress-circular indeterminate color="primary" :width="3"></v-progress-circular></div>
         </infinite-loading>
     </v-flex>
-    <!--v-layout align-center justify-center fill-height v-else>
-        <v-flex>
-            <navigation-not-found :error="notFound.error" :advice = "notFound.advice"></navigation-not-found>
-        </v-flex>
-    </v-layout-->
+    <navigation-not-found v-else
+                          :text="notFound.text"
+                          :advice = "notFound.advice"
+                          :back_page_btn="false"></navigation-not-found>
 </template>
 
 <script>
     import InfiniteLoading from "vue-infinite-loading";
+    import NavigationNotFound from "../navigation/navigationNotFound/NavigationNotFound";
 
     export default {
         name: "FlightList",
 
         components:{
-            InfiniteLoading
+            InfiniteLoading,
+            NavigationNotFound
         },
 
         data: () => ({
             //признак того что загрузка завершена
             loaded: true,
-            pageLength: 25
+            pageLength: 25,
+            notFound:{
+                text: "Рейсов не найдено",
+                advice: "Попробуйте поменять критерии поиска"
+            }
         }),
 
         computed: {

@@ -1,13 +1,5 @@
 <template>
-  <div class="layout align-center" :style="`height: ${height}px;`">
-    <tool-tip-btn round
-                  @click="setOpenedTextField"
-                  active_icon = "search"
-                  active_text = "Завершить поиск"
-                  deactive_text="Начать поиск"
-                  class="ma-0"
-                  :active = "openedTextField"
-                  bottom></tool-tip-btn>
+  <div class="layout align-center relative" :style="`height: ${height}px;`">
     <v-text-field
         v-if="openedTextField"
         v-model="filterStr"
@@ -20,13 +12,23 @@
         :placeholder="placeholder"
         :hide-details="true"
         :autofocus="true"
-        class="pa-0 ma-0"
+        class="pa-0 ma-0 absolute"
     ></v-text-field>
+    <tool-tip-btn round
+                  @click="setOpenedTextField"
+                  active_icon = "search"
+                  active_text = "Завершить поиск"
+                  deactive_text="Начать поиск"
+                  class="ma-0"
+                  :active = "openedTextField"
+                  bottom></tool-tip-btn>
   </div>
 </template>
 
 <script>
-import ToolTipBtn from "../common/ToolTipBtn";
+import "./filterField.css"
+
+import ToolTipBtn from "../../common/ToolTipBtn";
 
 export default {
   name: "FilterField",

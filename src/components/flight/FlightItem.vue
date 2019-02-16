@@ -1,5 +1,6 @@
 <template>
-    <v-layout wrap
+    <v-layoutv v-if="flight || !loaded"
+               wrap
               align-content-start>
         <v-flex xs12
                 align-self-start>
@@ -12,17 +13,29 @@
             <span class="px-2">{{flight.flight}}</span>
             <span class="px-2">{{flight.status}}</span>
         </v-layout>
-    </v-layout>
+    </v-layoutv>
+    <navigation-not-found v-else
+                          :text="notFound.text"
+                          :advice = "notFound.advice"></navigation-not-found>
 </template>
 
 <script>
+    import NavigationNotFound from "../navigation/navigationNotFound/NavigationNotFound"
 
     export default {
         name: "FlightItem",
 
+        components:{
+            NavigationNotFound
+        },
+
         data: () => ({
             //признак того что загрузка завершена
             loaded: true,
+            notFound:{
+                text: "Данный рейс не найден",
+                advice: "Попробуйте найти другой рейс"
+            }
         }),
 
         computed:{
