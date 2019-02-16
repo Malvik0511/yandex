@@ -1,6 +1,6 @@
 <template>
     <v-app id="app" class="layout">
-        <v-toolbar :absolute="true"
+        <v-toolbar :fixed="true"
                    :height="100"
                    class="layout__toolbar"
                    app flat>
@@ -16,7 +16,7 @@
 
         <!--Основной контент-->
         <v-content class="layout__content">
-            <v-layout :fill-height="contentFillHeight">
+            <v-layout :fill-height="contentFillHeight" class="px-4 pb-4">
                 <slot name="content"></slot>
                 <!--navigation-scroll-top v-if="!panelRightActive"></navigation-scroll-top-->
             </v-layout>

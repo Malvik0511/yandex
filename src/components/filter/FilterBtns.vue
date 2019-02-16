@@ -1,6 +1,5 @@
 <template>
     <v-layout justify-start>
-
             <tool-tip-btn v-for="btn in distbBtns"
                     @click = "setDistFilter(btn.id)"
                     :active_icon = "btn.icon"
@@ -21,7 +20,7 @@
     import { flightIcons } from "../../modules/constant"
 
     export default {
-        name: "Fiters",
+        name: "FiterBtns",
 
         components:{
             ToolTipBtn

@@ -1,22 +1,25 @@
 <template>
   <v-tooltip
-    :disabled = "!small"
+    :disabled = "!round && !small"
     :top = "top"
     :bottom = "bottom"
     :right = "right"
     :left = "left"
     lazy
     class = "toolteep-btn px-0 py-0"
+    :class = "round && 'toolteep-btn_round'"
     :content-class ="`toolteep-btn__tooltip-content${class_modify ? '_'+class_modify : ''}`">
     <v-btn
       @click = "$emit('click')"
       slot="activator"
       class="mx-0 my-0"
+      :icon="round"
       :class="{'el-active primary--text': active}">
-      <v-icon class="hidden-md-only">{{active ?
+      <v-icon :class="!round && 'hidden-md-only'">{{active ?
         `${active_icon}` :
         (deactive_icon ? deactive_icon: active_icon)}}</v-icon>
-      <span class = "hidden-sm-and-down">{{(active || !deactive_text) ? active_text : deactive_text}}</span>
+      <span v-if = "!round"
+            class = "hidden-sm-and-down">{{(active || !deactive_text) ? active_text : deactive_text}}</span>
     </v-btn>
     <span>{{(active || !deactive_text) ? active_text : deactive_text}}</span>
   </v-tooltip>
@@ -35,7 +38,10 @@ export default {
   },
 
   props: {
-    // Тип компонента Иконка - при клике на которую открывается интпут
+    round:{
+      type: Boolean,
+      default: false
+    },
     active: {
       type: Boolean,
       default: false

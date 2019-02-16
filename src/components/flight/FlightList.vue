@@ -1,9 +1,10 @@
 <template>
-    <v-flex v-if = "filtredFlightList.length || !loaded"
+    <v-flex v-if = "paginationfiltredFlightList.length || !loaded"
             xs12 >
         <v-data-table
+                dark
                 :headers="headers"
-                :items="filtredFlightList"
+                :items="paginationfiltredFlightList"
                 :loading = "!loaded"
                 hide-actions
                 must-sort
@@ -11,16 +12,24 @@
         >
             <template slot="items"
                       slot-scope="props">
-                <td class="">{{ props.item.departureTime }}
-                    <span v-if="props.item.departureTime !== props.item.realDepartureTime">
-                        ({{props.item.realDepartureTime}})</span>
-                </td>
-                <td class="">{{ filterDistId ? props.item.from : props.item.to }}</td>
-                <td class="">{{ props.item.flight }}</td>
-                <td class="">{{ props.item.company.join(", ") }}</td>
-                <td class="">{{ props.item.status }}</td>
+                <tr @click="toFlight(props.item.id)">
+                    <td class="">{{ props.item.departureTime }}
+                        <span v-if="props.item.departureTime !== props.item.realDepartureTime">
+                            ({{props.item.realDepartureTime}})</span>
+                    </td>
+                    <td class="">{{ filterDistId ? props.item.from : props.item.to }}</td>
+                    <td class="">{{ props.item.flight }}</td>
+                    <td class="">{{ props.item.company.join(", ") }}</td>
+                    <td class="">{{ props.item.status }}</td>
+                </tr>
             </template>
         </v-data-table>
+        <infinite-loading @infinite="infiniteHandler"
+                          force-use-infinite-wrapper="body"
+                          v-if = "paginationfiltredFlightList.length &&
+                            paginationfiltredFlightList.length !== filtredFlightList.length">
+            <div slot="spinner"><v-progress-circular indeterminate color="primary" :width="3"></v-progress-circular></div>
+        </infinite-loading>
     </v-flex>
     <!--v-layout align-center justify-center fill-height v-else>
         <v-flex>
@@ -30,13 +39,19 @@
 </template>
 
 <script>
+    import InfiniteLoading from "vue-infinite-loading";
 
     export default {
         name: "FlightList",
 
+        components:{
+            InfiniteLoading
+        },
+
         data: () => ({
             //признак того что загрузка завершена
             loaded: true,
+            pageLength: 25
         }),
 
         computed: {
@@ -54,7 +69,13 @@
             filtredFlightList(){
                 return this.flightList
                     .filter(flight => !this.filterDelay || flight.delay === this.filterDelay)
-                    .filter(flight => this.filterDistId == (flight.to === "Екатеринбург" ));
+                    .filter(flight => this.filterDistId == (flight.to === "Екатеринбург" ))
+                    .filter(flight => flight.flight.indexOf(this.filterWord) !== -1);
+            },
+            paginationfiltredFlightList(){
+                return this.filtredFlightList
+                    .slice(0, this.pageLength * this.flightListPage < this.flightList.length ?
+                        this.pageLength * this.flightListPage : this.flightList.length)
             },
             /**
              * Состояние фильтра задержанных рейсов
@@ -70,6 +91,12 @@
             filterDistId(){
                 return this.$store.getters.filterDistId
             },
+            filterWord(){
+                return this.$store.getters.filterWord
+            },
+            flightListPage(){
+                return this.$store.getters.flightListPage;
+            },
 
             //конфигурация таблицы
             headers(){
@@ -77,15 +104,26 @@
                     [
                         { text: "Вылет", align: "left", value: "departureTime", sortable: true },
                         !this.filterDistId ?
-                            { text: "В", align: "left", value: "to", sortable: true }:
-                            { text: "Из", align: "left", value: "from", sortable: true },
+                            { text: "В", align: "left", value: "to", sortable: false }:
+                            { text: "Из", align: "left", value: "from", sortable: false },
                         { text: "Рейс", align: "left", value: "flight", sortable: false },
-                        { text: "Авиакомпания", align: "left", value: "company", sortable: false },
+                        { text: "Авиакомпания", align: "left", value: "company", sortable: true },
                         { text: "Статус", value: "status", sortable: false }
                     ]
                 )
             }
         },
 
+        methods: {
+            infiniteHandler(){
+                if (this.paginationfiltredFlightList.length < this.filtredFlightList.length){
+                    this.$store.commit("NEXT_FLIGHT_LIST_PAGE");
+                }
+            },
+
+            toFlight(id){
+                this.$router.push({name: 'flight', params: { id } });
+            }
+        }
     };
 </script>
