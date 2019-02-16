@@ -12,7 +12,8 @@
         >
             <template slot="items"
                       slot-scope="props">
-                <tr @click="toFlight(props.item.id)">
+                <tr @click="toFlight(props.item.id)"
+                        class="pointer">
                     <td class="">{{ props.item.departureTime }}
                         <span v-if="props.item.departureTime !== props.item.realDepartureTime">
                             ({{props.item.realDepartureTime}})</span>
@@ -47,6 +48,10 @@
         components:{
             InfiniteLoading,
             NavigationNotFound
+        },
+
+        mounted(){
+            this.$store.dispatch("getFlightList");
         },
 
         data: () => ({
