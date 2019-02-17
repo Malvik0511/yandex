@@ -15,7 +15,7 @@
       class="mx-0 my-0"
       :icon="round"
       :class="{'el-active primary--text': active}">
-      <v-icon :class="!round && 'hidden-md-only'">{{active ?
+      <v-icon :class="[!round && 'hidden-md-only', round && 'white--text']">{{active ?
         `${active_icon}` :
         (deactive_icon ? deactive_icon: active_icon)}}</v-icon>
       <span v-if = "!round"

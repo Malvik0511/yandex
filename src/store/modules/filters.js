@@ -4,14 +4,14 @@
 const state = {
     //текущие фильтры
     filters:{
-        distId: 0,
+        distId: "arrival",
         delay: false,
         word:""
     },
     //возможные направления
     dist: [
-        { id: 0, name: "Вылет"},
-        { id: 1, name: "Прилет"},
+        { id: "departure", name: "Вылет"},
+        { id: "arrival", name: "Прилет"},
     ],
 };
 
@@ -50,7 +50,7 @@ const mutations = {
      * @constructor
      */
     CLEAR_FILTERS(state) {
-        state.filters.distId = 1;
+        state.filters.distId = "arrival";
         state.filters.delay = false;
         state.filters.delay = "";
     },

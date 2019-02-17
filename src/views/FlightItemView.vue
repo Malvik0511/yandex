@@ -22,8 +22,9 @@
         },
 
         computed: {
+            //id рейса
             id() {
-                return parseInt(this.$route.params.id);
+                return this.$route.params.id;
             },
         }
     }

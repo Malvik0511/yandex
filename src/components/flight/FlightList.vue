@@ -12,16 +12,12 @@
         >
             <template slot="items"
                       slot-scope="props">
-                <tr @click="toFlight(props.item.id)"
+                <tr @click="toFlight(props.item.thread.uid)"
                         class="pointer">
-                    <td class="">{{ props.item.departureTime }}
-                        <span v-if="props.item.departureTime !== props.item.realDepartureTime">
-                            ({{props.item.realDepartureTime}})</span>
-                    </td>
-                    <td class="">{{ filterDistId ? props.item.from : props.item.to }}</td>
-                    <td class="">{{ props.item.flight }}</td>
-                    <td class="">{{ props.item.company.join(", ") }}</td>
-                    <td class="">{{ props.item.status }}</td>
+                    <td class="">{{ filterDistId === "arrival" ? props.item.arrival :  props.item.departure }}</td>
+                    <td class="">{{ props.item.thread.short_title }}</td>
+                    <td class="">{{ props.item.thread.number }}</td>
+                    <td class="">{{ props.item.thread.carrier.title }}</td>
                 </tr>
             </template>
         </v-data-table>
@@ -50,13 +46,19 @@
             NavigationNotFound
         },
 
+        watch:{
+            filterDistId(){
+                this.getFlights();
+            }
+        },
+
         mounted(){
-            this.$store.dispatch("getFlightList");
+           this.getFlights()
         },
 
         data: () => ({
             //признак того что загрузка завершена
-            loaded: true,
+            loaded: false,
             pageLength: 25,
             notFound:{
                 text: "Рейсов не найдено",
@@ -70,7 +72,7 @@
              * @returns {default.computed.flightList|(function())|getters.flightList|Array}
              */
             flightList(){
-                return this.$store.getters.flightList || []
+                return this.$store.getters.flightList(this.filterDistId)
             },
             /**
              * список рейсов с учетом фильтров
@@ -78,10 +80,12 @@
              */
             filtredFlightList(){
                 return this.flightList
-                    .filter(flight => !this.filterDelay || flight.delay === this.filterDelay)
-                    .filter(flight => this.filterDistId == (flight.to === "Екатеринбург" ))
-                    .filter(flight => flight.flight.indexOf(this.filterWord) !== -1);
+                    .filter(flight => !this.filterDelay || flight.is_fuzzy === this.filterDelay)
+                    .filter(flight => flight.thread.number.indexOf(this.filterWord) !== -1);
             },
+            /**
+             * список рейсов с учетом пагинации
+             */
             paginationfiltredFlightList(){
                 return this.filtredFlightList
                     .slice(0, this.pageLength * this.flightListPage < this.flightList.length ?
@@ -101,9 +105,17 @@
             filterDistId(){
                 return this.$store.getters.filterDistId
             },
+            /**
+             * слово фильтр
+             * @returns {default.computed.filterWord|(function())|getters.filterWord}
+             */
             filterWord(){
                 return this.$store.getters.filterWord
             },
+            /**
+             * текущая страница пагинации
+             * @returns {default.computed.flightListPage|(function())|getters.flightListPage}
+             */
             flightListPage(){
                 return this.$store.getters.flightListPage;
             },
@@ -111,28 +123,49 @@
             //конфигурация таблицы
             headers(){
                 return(
-                    [
-                        { text: "Вылет", align: "left", value: "departureTime", sortable: true },
-                        !this.filterDistId ?
-                            { text: "В", align: "left", value: "to", sortable: false }:
-                            { text: "Из", align: "left", value: "from", sortable: false },
+                    [   this.filterDistId === "arrival" ?
+                            { text: "Прибытие", align: "left", value: "arrival", sortable: true }:
+                            { text: "Отправление", align: "left", value: "departure", sortable: true },
+                        { text: "Направление", align: "left", value: "to", sortable: false },
                         { text: "Рейс", align: "left", value: "flight", sortable: false },
                         { text: "Авиакомпания", align: "left", value: "company", sortable: true },
-                        { text: "Статус", value: "status", sortable: false }
                     ]
                 )
             }
         },
 
         methods: {
-            infiniteHandler(){
-                if (this.paginationfiltredFlightList.length < this.filtredFlightList.length){
-                    this.$store.commit("NEXT_FLIGHT_LIST_PAGE");
+            /**
+             * запрос рейсов
+             */
+            getFlights(){
+                this.loaded = false;
+                if (this.filterDistId === "departure"){
+                    this.$store.dispatch("getDepartureList")
+                        .finally(() => this.loaded = true);
+                } else {
+                    this.$store.dispatch("getArrivaleList")
+                        .finally(() => this.loaded = true);
                 }
             },
-
+            /**
+             * оьработка подгрузки
+             * @param $state
+             */
+            infiniteHandler($state){
+                if (this.paginationfiltredFlightList.length < this.filtredFlightList.length){
+                    this.$store.commit("NEXT_FLIGHT_LIST_PAGE");
+                    $state.loaded();
+                } else {
+                    $state.complete();
+                }
+            },
+            /**
+             * к рейсу
+             * @param id
+             */
             toFlight(id){
-                this.$router.push({name: 'flight', params: { id } });
+                this.$router.push({name: this.filterDistId, params: { id } });
             }
         }
     };
