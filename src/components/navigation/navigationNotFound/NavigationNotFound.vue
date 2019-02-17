@@ -21,7 +21,7 @@
 
 <script>
     import "./navigationNotFound.css";
-    import ToolTipBtn from "../../common/ToolTipBtn"
+    import ToolTipBtn from "../../common/toolTipBtn/ToolTipBtn"
 
     export default {
         name: "NavigationNotFound",

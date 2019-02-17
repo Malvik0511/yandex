@@ -1,36 +1,45 @@
 <template>
-    <v-layout v-if="flight || !loaded"
+    <v-layout v-if="flight"
                wrap
               align-content-start>
         <v-flex xs12
                 align-self-start>
             <h2>{{flight.thread.short_title}}</h2>
         </v-flex>
-        <v-layout align-self-start>
-            <span class="px-2">{{direct === "arrival" ?
-                flight.arrival :  flight.departure}}</span>
-            <span class="px-2">{{flight.thread.carrier.title }}</span>
-            <span class="px-2">{{flight.thread.number}}</span>
-        </v-layout>
+        <v-flex xs12>
+            <v-layout align-self-start>
+                <span class="px-2">{{direct === "arrival" ?
+                    flight.arrival :  flight.departure}} /</span>
+                <span class="px-2">{{flight.thread.carrier.title }} / </span>
+                <span class="px-2">{{flight.thread.number}}</span>
+            </v-layout>
+        </v-flex>
+        <flight-help :direct="direct"
+                     class="mt-2"></flight-help>
     </v-layout>
+    <loader v-else-if="!loaded"></loader>
     <navigation-not-found v-else
                           :text="notFound.text"
                           :advice = "notFound.advice"></navigation-not-found>
 </template>
 
 <script>
-    import NavigationNotFound from "../navigation/navigationNotFound/NavigationNotFound"
+    import NavigationNotFound from "../navigation/navigationNotFound/NavigationNotFound";
+    import Loader from "../common/loader/Loader";
+    import FlightHelp from "./flightHelp/FlightHelp"
 
     export default {
         name: "FlightItem",
 
         components:{
-            NavigationNotFound
+            NavigationNotFound,
+            Loader,
+            FlightHelp
         },
 
         data: () => ({
             //признак того что загрузка завершена
-            loaded: true,
+            loaded: false,
             notFound:{
                 text: "Данный рейс не найден",
                 advice: "Попробуйте найти другой рейс"
@@ -83,9 +92,7 @@
              * запрос рейсов
              */
             getFlights(){
-                if (!this.flightList){
-                    this.loaded = false;
-                }
+                this.loaded = false;
                 if (this.filterDistId === "departure"){
                     this.$store.dispatch("getDepartureList")
                         .finally(() => this.loaded = true);

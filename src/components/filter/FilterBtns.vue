@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import ToolTipBtn from "../common/ToolTipBtn";
+    import ToolTipBtn from "../common/toolTipBtn/ToolTipBtn";
     import { flightIcons } from "../../modules/constant"
 
     export default {
