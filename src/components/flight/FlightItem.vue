@@ -26,7 +26,7 @@
 <script>
     import NavigationNotFound from "../navigation/navigationNotFound/NavigationNotFound";
     import Loader from "../common/loader/Loader";
-    import FlightHelp from "./flightHelp/FlightHelp"
+    import FlightHelp from "./flightHelp/FlightHelp";
 
     export default {
         name: "FlightItem",
@@ -40,6 +40,7 @@
         data: () => ({
             //признак того что загрузка завершена
             loaded: false,
+            //данные для ошибки
             notFound:{
                 text: "Данный рейс не найден",
                 advice: "Попробуйте найти другой рейс"
@@ -76,7 +77,7 @@
              * @returns {default.computed.filterDistId|(function())|getters.filterDistId}
              */
             filterDistId(){
-                return this.$store.getters.filterDistId
+                return this.$store.getters.filterDistId;
             },
         },
 

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import "./tooltipBtn.css"
+  import "./tooltipBtn.css";
 
 export default {
   name: "ToolTipBtn",
@@ -38,35 +38,44 @@ export default {
   },
 
   props: {
+    //круглая кнопка
     round:{
       type: Boolean,
       default: false
     },
+    //признак активности
     active: {
       type: Boolean,
       default: false
     },
+    //текс в активном состоянии
     active_text: {
       type: String,
       required: true
     },
+    //текст в неактивном состоянии
     deactive_text: {
       type: String
     },
+    //иконка в активном состоянии
     active_icon: {
       type: String,
       required: true
     },
+    //иконка в неактивном состоянии
     deactive_icon: {
       type: String
     },
+    //модификатор класса вида _{mod}
     class_modify: {
       type: String,
       default: ""
     },
+    //ссылка
     to: {
       type: Object
     },
+    //направление тултипа
     right: {
       type: Boolean,
       default: false

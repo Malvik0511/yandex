@@ -10,7 +10,7 @@
 
 <script>
     import Layout from "../components/layout/Layout";
-    import FlightItem from "../components/flight/FlightItem"
+    import FlightItem from "../components/flight/FlightItem";
 
     export default {
 

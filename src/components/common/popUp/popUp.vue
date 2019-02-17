@@ -27,17 +27,26 @@
                     this.$store.commit("CLEAR_POPUP_INFO");
                 }
             },
-
+            /**
+             * время действия
+             * @returns {number}
+             */
             timeout(){
-                return this.$store.getters.popupInfoTimeout
+                return this.$store.getters.popupInfoTimeout;
             },
-
+            /**
+             * цвет
+             * @returns {string|getters.popupInfoColor}
+             */
             color(){
-                return this.$store.getters.popupInfoColor
+                return this.$store.getters.popupInfoColor;
             },
-
+            /**
+             * сообщение
+             * @returns {string|getters.popupInfoText}
+             */
             text(){
-                return this.$store.getters.popupInfoText
+                return this.$store.getters.popupInfoText;
             }
         },
     };

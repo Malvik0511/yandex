@@ -14,9 +14,13 @@
         name: "Updater",
 
         data: () => ({
+            //показывать ли элемент
             shouldShow: false,
+            //переменная интервала проверки
             checkInterval: null,
+            //интервал обновления
             checkIntervalTime: 1 * 60 * 1000,
+            //статус загрузки данных
             loaded: false
         }),
 
@@ -27,14 +31,24 @@
         },
 
         computed: {
+            /**
+             * ограничение на скачивание
+             * @returns {default.computed.flightUpdateInterval|(function())|getters.flightUpdateInterval}
+             */
             flightUpdateInterval(){
                 return this.$store.getters.flightUpdateInterval;
             },
-
+            /**
+             * выбранное направление
+             * @returns {default.computed.filterDistId|(function())|default.watch.filterDistId|getters.filterDistId}
+             */
             filterDistId(){
                 return this.$store.getters.filterDistId;
             },
-
+            /**
+             * время последнего обновления
+             * @returns {*|exports.list|list|*[]|VListInstance|HTMLElement}
+             */
             flightLastUpdate(){
                 return this.$store.getters.flightLastUpdate(this.filterDistId);
             }
@@ -49,6 +63,9 @@
         },
 
         methods: {
+            /**
+             * обновить данные
+             */
             update(){
                 this.loaded = true;
                 if (this.filterDistId === "departure"){
@@ -61,25 +78,32 @@
                         .finally(() => this.loaded = false);
                 }
             },
-
+            /**
+             * начинаем проверку необходимости показать кнопку обновления
+             */
             startCheck(){
                 this.tryToSetShow();
                 this.checkInterval = setInterval(this.tryToSetShow, this.checkIntervalTime);
             },
-
+            /**
+             * останавливаем проверку
+             */
             stopCheck(){
                 clearInterval(this.checkInterval)
                 this.checkInterval = null;
             },
-
+            /**
+             * перезапускаем проверку
+             */
             restartCheck(){
                 this.stopCheck();
                 this.startCheck();
             },
-
+            /**
+             * прячем или показываем кнопку
+             */
             tryToSetShow(){
                 if(this.flightLastUpdate && new Date().getTime() - this.flightLastUpdate > this.flightUpdateInterval) {
-                    console.log(2)
                     this.shouldShow = true;
                     this.stopCheck()
                 } else {

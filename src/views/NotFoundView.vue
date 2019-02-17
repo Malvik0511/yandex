@@ -5,13 +5,12 @@
                 <navigation-not-found></navigation-not-found>
             </v-layout>
         </template>
-
     </layout>
 </template>
 
 <script>
     import Layout from "../components/layout/Layout";
-    import NavigationNotFound from "../components/navigation/navigationNotFound/NavigationNotFound"
+    import NavigationNotFound from "../components/navigation/navigationNotFound/NavigationNotFound";
 
     export default {
 

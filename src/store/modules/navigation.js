@@ -21,7 +21,6 @@ const state = {
 const mutations = {
   //настройка скроллтопа
   SET_SCROLL_TOP(state, props) {
-    console.log(props);
     let needUpdate =
         props && props.needUpdate !== undefined ? props.needUpdate : false,
       scrollContainer =

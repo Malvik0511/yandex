@@ -3,8 +3,6 @@
  */
 import CommonService from "../../modules/CommonService";
 
-import { defaultFlightList } from "../../modules/constant";
-
 const state = {
     //список рейсов и номер страниц для бесконечной прокрутки
     flight: {
@@ -39,7 +37,7 @@ const mutations = {
      * @constructor
      */
     SET_FLIGHT_LIST(state, { data, direct }){
-        state.flight = {...state.flight, list: {...state.flight.list, [direct]: data}}
+        state.flight = { ...state.flight, list: { ...state.flight.list, [direct]: data } }
     },
     /**
      * следующая страница
@@ -56,7 +54,7 @@ const mutations = {
      * @constructor
      */
     SET_LAST_UPDATE(state, direct){
-        state.flight = {...state.flight, lastUpdate: {...state.flight.lastUpdate, [direct]: new Date().getTime()}}
+        state.flight = { ...state.flight, lastUpdate: { ...state.flight.lastUpdate, [direct]: new Date().getTime() } }
     }
 };
 
@@ -95,7 +93,7 @@ const actions = {
                 new Date().getTime() - getters.flightLastUpdate(direct) > getters.flightUpdateInterval) {
                 CommonService.request({url: `/flight/${direct}`})
                     .then(data => {
-                        commit("SET_FLIGHT_LIST", {data, direct });
+                        commit("SET_FLIGHT_LIST", { data, direct });
                         commit("SET_LAST_UPDATE", direct)
                         resolve();
                     })
@@ -145,7 +143,6 @@ const getters = {
      * @returns {function(*): T}
      */
     flight: (state, getters)=> ({ id, direct }) => {
-        console.log(id, direct, getters.flightList(direct))
         return getters.flightList(direct).find(item => item.thread.uid === id);
     },
     /**

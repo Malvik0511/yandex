@@ -33,7 +33,7 @@
     import "./layout.css";
     import NavigationScrollTop from "../navigation/navigationScrollTop/NavigationScrollTop";
     import PopUp from "../common/popUp/popUp";
-    import Updater from "../common/updater/Updater"
+    import Updater from "../common/updater/Updater";
 
     export default {
         name: "Layout",

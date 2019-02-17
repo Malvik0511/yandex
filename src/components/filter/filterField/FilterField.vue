@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import "./filterField.css"
+import "./filterField.css";
 
 import ToolTipBtn from "../../common/toolTipBtn/ToolTipBtn";
 
@@ -70,7 +70,9 @@ export default {
     }
   },
 
-  computed: {},
+  beforeDestroy(){
+    this.setOpenedTextField();
+  },
 
   methods: {
     // отобразить поле для поиска

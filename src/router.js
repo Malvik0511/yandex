@@ -3,7 +3,7 @@ import Router from "vue-router";
 
 import FlightListView from "./views/FlightListView";
 import FlightView from "./views/FlightItemView";
-import NotFoundView from "./views/NotFoundView"
+import NotFoundView from "./views/NotFoundView";
 
 Vue.use(Router);
 

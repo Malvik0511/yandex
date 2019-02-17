@@ -25,7 +25,9 @@
                           force-use-infinite-wrapper="body"
                           v-if = "paginationfiltredFlightList.length &&
                             paginationfiltredFlightList.length !== filtredFlightList.length">
-            <div slot="spinner"><v-progress-circular indeterminate color="primary" :width="3"></v-progress-circular></div>
+            <div slot="spinner">
+                <v-progress-circular indeterminate color="primary" :width="3"></v-progress-circular>
+            </div>
         </infinite-loading>
     </v-flex>
     <navigation-not-found v-else
@@ -84,7 +86,7 @@
              * @returns {default.computed.flightList|(function())|getters.flightList|Array}
              */
             flightList(){
-                return this.$store.getters.flightList(this.filterDistId)
+                return this.$store.getters.flightList(this.filterDistId);
             },
             /**
              * список рейсов с учетом фильтров
@@ -101,28 +103,28 @@
             paginationfiltredFlightList(){
                 return this.filtredFlightList
                     .slice(0, this.pageLength * this.flightListPage < this.flightList.length ?
-                        this.pageLength * this.flightListPage : this.flightList.length)
+                        this.pageLength * this.flightListPage : this.flightList.length);
             },
             /**
              * Состояние фильтра задержанных рейсов
              * @returns {default.computed.filterDelay|(function())|getters.filterDelay}
              */
             filterDelay(){
-                return this.$store.getters.filterDelay
+                return this.$store.getters.filterDelay;
             },
             /**
              * вылет прилет
              * @returns {default.computed.filterDistId|(function())|getters.filterDistId}
              */
             filterDistId(){
-                return this.$store.getters.filterDistId
+                return this.$store.getters.filterDistId;
             },
             /**
              * слово фильтр
              * @returns {default.computed.filterWord|(function())|getters.filterWord}
              */
             filterWord(){
-                return this.$store.getters.filterWord
+                return this.$store.getters.filterWord;
             },
             /**
              * текущая страница пагинации

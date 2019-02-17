@@ -8,7 +8,7 @@ import store from "./store/";
 import router from "./router";
 
 import 'vuetify/dist/vuetify.min.css'
-import './stylus/main.css'
+import './style/main.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 
