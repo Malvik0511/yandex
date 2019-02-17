@@ -13,7 +13,7 @@ const state = {
             departure:{},
         },
         listPage: 1,
-        updateInterval: 5 * 60 * 60 * 1000,
+        updateInterval: 5  * 60 * 1000,
         lastUpdate:{
             arrival: null,
             departure: null,
@@ -40,7 +40,6 @@ const mutations = {
      */
     SET_FLIGHT_LIST(state, { data, direct }){
         state.flight = {...state.flight, list: {...state.flight.list, [direct]: data}}
-        //state.flight.list[direct] = data;
     },
     /**
      * следующая страница
@@ -57,13 +56,13 @@ const mutations = {
      * @constructor
      */
     SET_LAST_UPDATE(state, direct){
-        state.flight.lastUpdate[direct] = new Date().getTime();
+        state.flight = {...state.flight, lastUpdate: {...state.flight.lastUpdate, [direct]: new Date().getTime()}}
     }
 };
 
 const actions = {
     // запрос к API - отправка письма
-    getDepartureList({ commit, getters }){
+    getDepartureList({ commit, getters, dispatch }){
         return new Promise((resolve, reject) => {
             const direct = "departure";
             if (!getters.flightLastUpdate(direct) ||
@@ -74,7 +73,14 @@ const actions = {
                         commit("SET_LAST_UPDATE", direct)
                         resolve()
                     })
-                    .catch(reject);
+                    .catch(() => {
+                        //показываем предупреждение
+                        dispatch("popupInfoOpen", {
+                            text: "Не удалось получить список рейсов",
+                            color: "red"
+                        });
+                        reject();
+                    });
             } else {
                 resolve();
             }
@@ -82,7 +88,7 @@ const actions = {
         });
     },
 
-    getArrivaleList({ commit, getters }){
+    getArrivaleList({ commit, getters, dispatch }){
         return new Promise((resolve, reject) => {
             const direct = "arrival";
             if (!getters.flightLastUpdate(direct) ||
@@ -93,7 +99,14 @@ const actions = {
                         commit("SET_LAST_UPDATE", direct)
                         resolve();
                     })
-                    .catch(reject);
+                    .catch(() => {
+                        //показываем предупреждение
+                        dispatch("popupInfoOpen", {
+                            text: "Не удалось получить список рейсов",
+                            color: "red"
+                        });
+                        reject();
+                    });
             } else {
                 resolve();
             }

@@ -3,7 +3,9 @@ import Vuex from "vuex";
 import CreatePersistedState from "vuex-persistedstate";
 
 import flights from "./modules/flights";
-import filters from "./modules/filters"
+import filters from "./modules/filters";
+import navigation from "./modules/navigation";
+import popup from "./modules/popup";
 
 
 Vue.use(Vuex);
@@ -21,6 +23,8 @@ export default new Vuex.Store({
 
     modules: {
         flights,
-        filters
+        filters,
+        navigation,
+        popup
     }
 });

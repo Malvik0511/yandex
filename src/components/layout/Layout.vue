@@ -14,39 +14,35 @@
                     </v-flex>
                 </v-layout>
         </v-toolbar>
-
         <!--Основной контент-->
         <v-content class="layout__content">
             <v-layout :fill-height="contentFillHeight" class="px-4 pb-4">
                 <slot name="content"></slot>
-                <!--navigation-scroll-top v-if="!panelRightActive"></navigation-scroll-top-->
+                <v-layout class = "layout__block_fixed" column>
+                    <updater class="order-xs1"></updater>
+                    <navigation-scroll-top class="order-xs2"></navigation-scroll-top>
+                </v-layout>
             </v-layout>
         </v-content>
-        <!--всплывашка с сообщениями при изменении данных-->
-        <!--v-snackbar v-model="popupInfoActive"
-                    :timeout="$store.getters.popupInfoTimeout"
-                    :color="$store.getters.popupInfoColor"
-                    top
-                    right
-        >
-            <v-layout align-center pr-4>
-                <v-flex class="mr-3"><img src="/icons/info.svg"></v-flex>
-                <v-flex class="font-weight-medium">{{ $store.getters.popupInfoText }}</v-flex>
-            </v-layout>
-
-            <v-btn
-                    @click="popupInfoActive = false"
-                    icon absolute right
-            ><i class="cctv-icon cctv-icon-close"></i></v-btn>
-        </v-snackbar-->
+        <!--всплывашка-->
+        <pop-up></pop-up>
     </v-app>
 </template>
 
 <script>
     import "./layout.css";
+    import NavigationScrollTop from "../navigation/navigationScrollTop/NavigationScrollTop";
+    import PopUp from "../common/popUp/popUp";
+    import Updater from "../common/updater/Updater"
 
     export default {
         name: "Layout",
+
+        components:{
+            NavigationScrollTop,
+            PopUp,
+            Updater
+        },
 
         props: {
             // блок с основным контентом во всю высоту экрана
@@ -55,18 +51,5 @@
                 default: true
             }
         },
-
-        computed: {
-            // состояние всплывашки с сообщениями
-            /* popupInfoActive: {
-                 get: function() {
-                     return this.$store.getters.popupInfoActive;
-                 },
-                 set: function() {
-                     this.$store.commit("CLEAR_POPUP_INFO");
-                 }
-             },*/
-
-        }
     };
 </script>

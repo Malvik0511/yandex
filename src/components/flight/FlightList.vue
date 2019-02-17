@@ -53,7 +53,19 @@
         },
 
         mounted(){
-           this.getFlights()
+           this.getFlights();
+           //активируем скроллтоп
+           this.$store.commit("SET_SCROLL_TOP", { active: true });
+        },
+
+        beforeDestroy(){
+            //деактивируем скроллтоп
+            this.$store.commit("SET_SCROLL_TOP");
+        },
+
+        updated(){
+            //заставляем скроллтоп обновиться
+            this.$store.commit("SET_NEED_UPDATE", true);
         },
 
         data: () => ({
