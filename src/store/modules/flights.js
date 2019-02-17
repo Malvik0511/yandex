@@ -3,7 +3,7 @@
  */
 import CommonService from "../../modules/CommonService";
 
-import { SVXcode, defaultFlightList } from "../../modules/constant";
+import { defaultFlightList } from "../../modules/constant";
 
 const state = {
     //список рейсов и номер страниц для бесконечной прокрутки
@@ -41,7 +41,7 @@ const actions = {
     // запрос к API - отправка письма
     getFlightList({ commit }){
         return new Promise((resolve, reject) => {
-            CommonService.request({ station: SVXcode, transport_types: "plane" })
+            CommonService.request({ url: "/flight" })
                 .then(data => {
                     commit("SET_FLIGHT_LIST", data);
                 })
