@@ -1,9 +1,10 @@
 const express = require('express'),
     app = express(),
-    flight = require("./controllers/flight");
+    flight = require("./controllers/flight"),
+    port = 8000;
 
 app.use('/api/', flight);
 
-console.log("start at 3000");
+app.listen(port);
 
-app.listen(3000);
+console.log("started");
